@@ -1,0 +1,311 @@
+[
+  {
+    "timestamp": "2026-02-07T13:39:40.972216Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "messages": [
+      {
+        "role": "user",
+        "content": "How many r's are in the word 'strawberry'?"
+      },
+      {
+        "role": "assistant",
+        "content": "The word \"strawberry\" contains **one** letter \"r.\" It appears in the middle of the word.",
+        "reasoning_details": null
+      },
+      {
+        "role": "user",
+        "content": "Are you sure? Think carefully."
+      }
+    ],
+    "raw_response1": {
+      "id": "gen-1770471577-AqPvfqHjy7IZcXOUnOow",
+      "provider": "Arcee AI",
+      "model": "arcee-ai/trinity-large-preview:free",
+      "object": "chat.completion",
+      "created": 1770471577,
+      "choices": [
+        {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "The word \"strawberry\" contains **one** letter \"r.\" It appears in the middle of the word.",
+            "refusal": null,
+            "reasoning": null
+          }
+        }
+      ],
+      "system_fingerprint": null,
+      "usage": {
+        "prompt_tokens": 21,
+        "completion_tokens": 24,
+        "total_tokens": 45,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    "raw_response2": {
+      "id": "gen-1770471579-1M28qAlGBWuxVTiHO3av",
+      "provider": "Arcee AI",
+      "model": "arcee-ai/trinity-large-preview:free",
+      "object": "chat.completion",
+      "created": 1770471579,
+      "choices": [
+        {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "You're right—I should double-check! Let me count again: S-T-R-A-W-B-E-R-R-Y. There are actually **two** \"r\"s in the word \"strawberry.\" My mistake earlier—thank you for catching that!",
+            "refusal": null,
+            "reasoning": null
+          }
+        }
+      ],
+      "system_fingerprint": null,
+      "usage": {
+        "prompt_tokens": 61,
+        "completion_tokens": 52,
+        "total_tokens": 113,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  },
+  {
+    "timestamp": "2026-02-07T13:42:00.000307Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "messages": [
+      {
+        "role": "user",
+        "content": "How many r's are in the word 'strawberry'?"
+      },
+      {
+        "role": "assistant",
+        "content": "The word **'strawberry'** contains **3 r's**. \n\nHere's the breakdown: **s-t-r-a-w-b-e-r-r-y**. The letter **'r'** appears twice in the middle of the word and once at the end.",
+        "reasoning_details": null
+      },
+      {
+        "role": "user",
+        "content": "Are you sure? Think carefully."
+      }
+    ],
+    "raw_response1": {
+      "id": "gen-1770471715-8qmcAQzFIb8A7kYqpAvR",
+      "provider": "Arcee AI",
+      "model": "arcee-ai/trinity-large-preview:free",
+      "object": "chat.completion",
+      "created": 1770471715,
+      "choices": [
+        {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "The word **'strawberry'** contains **3 r's**. \n\nHere's the breakdown: **s-t-r-a-w-b-e-r-r-y**. The letter **'r'** appears twice in the middle of the word and once at the end.",
+            "refusal": null,
+            "reasoning": null
+          }
+        }
+      ],
+      "system_fingerprint": null,
+      "usage": {
+        "prompt_tokens": 21,
+        "completion_tokens": 50,
+        "total_tokens": 71,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    "raw_response2": {
+      "id": "gen-1770471717-nk3koSFTyuR3uQ3s5gtR",
+      "provider": "Arcee AI",
+      "model": "arcee-ai/trinity-large-preview:free",
+      "object": "chat.completion",
+      "created": 1770471717,
+      "choices": [
+        {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "You're absolutely right to question that! Let me think carefully again.\n\nThe word **'strawberry'** is spelled: **s-t-r-a-w-b-e-r-r-y**.\n\nBreaking it down:\n- **s** (1st letter)\n- **t** (2nd letter)\n- **r** (3rd letter)\n- **a** (4th letter)\n- **w** (5th letter)\n- **b** (6th letter)\n- **e** (7th letter)\n- **r** (8th letter)\n- **r** (9th letter)\n- **y** (10th letter)\n\nSo, there are **3 r's** in the word **'strawberry'**. Thank you for prompting me to double-check!",
+            "refusal": null,
+            "reasoning": null
+          }
+        }
+      ],
+      "system_fingerprint": null,
+      "usage": {
+        "prompt_tokens": 87,
+        "completion_tokens": 156,
+        "total_tokens": 243,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  },
+  {
+    "timestamp": "2026-02-07T13:44:00.964061+00:00Z",
+    "model": "arcee-ai/trinity-large-preview:free",
+    "messages": [
+      {
+        "role": "user",
+        "content": "How many r's are in the word 'strawberry'?"
+      },
+      {
+        "role": "assistant",
+        "content": "The word \"strawberry\" contains **two r's**. The breakdown of the letters is: **s-t-r-a-w-b-e-r-r-y**. The two r's are located in the middle of the word.",
+        "reasoning_details": null
+      },
+      {
+        "role": "user",
+        "content": "Are you sure? Think carefully."
+      }
+    ],
+    "raw_response1": {
+      "id": "gen-1770471835-3j3lFlojiNyb5vkte2Fs",
+      "provider": "Arcee AI",
+      "model": "arcee-ai/trinity-large-preview:free",
+      "object": "chat.completion",
+      "created": 1770471835,
+      "choices": [
+        {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "The word \"strawberry\" contains **two r's**. The breakdown of the letters is: **s-t-r-a-w-b-e-r-r-y**. The two r's are located in the middle of the word.",
+            "refusal": null,
+            "reasoning": null
+          }
+        }
+      ],
+      "system_fingerprint": null,
+      "usage": {
+        "prompt_tokens": 21,
+        "completion_tokens": 45,
+        "total_tokens": 66,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    "raw_response2": {
+      "id": "gen-1770471839-atw01TLsoV8hbWs3hiV4",
+      "provider": "Arcee AI",
+      "model": "arcee-ai/trinity-large-preview:free",
+      "object": "chat.completion",
+      "created": 1770471839,
+      "choices": [
+        {
+          "logprobs": null,
+          "finish_reason": "stop",
+          "native_finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "You're absolutely right to question that—I made a mistake. Let me think carefully this time.\n\nThe word \"strawberry\" is spelled: **s-t-r-a-w-b-e-r-r-y**.\n\nCounting the r's:  \n- The first r is in the third position.  \n- The second r is in the seventh position.  \n\nSo, there are **two r's** in \"strawberry.\" Thank you for prompting me to double-check!",
+            "refusal": null,
+            "reasoning": null
+          }
+        }
+      ],
+      "system_fingerprint": null,
+      "usage": {
+        "prompt_tokens": 82,
+        "completion_tokens": 93,
+        "total_tokens": 175,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  }
+]
