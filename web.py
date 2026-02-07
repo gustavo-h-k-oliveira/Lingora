@@ -1,4 +1,5 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 import os
 
 
@@ -6,9 +7,15 @@ def create_app(run_conversation_func):
     """Create Flask app, injecting the `run_conversation` callable to avoid circular imports."""
     app = Flask(__name__)
 
+    # Allow local frontend dev server to call the API during development
+    CORS(app, resources={r"/run": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+
     @app.route("/", methods=["GET"])
     def index():
-        return render_template("index.html")
+        return jsonify({
+            "ok": True,
+            "message": "Frontend is a separate React app. Run 'npm run dev' in ./frontend for development or serve built assets from frontend/dist in production.",
+        })
 
     @app.route("/run", methods=["POST"])
     def run():
