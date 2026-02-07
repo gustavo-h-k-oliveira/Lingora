@@ -85,8 +85,8 @@ Exemplo:
 
   * Estado atual
   * Última intenção do usuário
-  * Contexto da sessão (últimas 3–5 interações)
-  
+  * Contexto da sessão
+
 * **Longa (banco):**
 
   * Idiomas estudados

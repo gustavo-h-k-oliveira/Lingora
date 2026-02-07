@@ -1,27 +1,40 @@
-import json
-import os
-from typing import Any, Dict
+from typing import Any, Dict, cast
 from datetime import datetime
 
-__all__ = ["save_conversation_as_array"]
+from .db import get_session, init_db
+from .models import Conversation, Message
+
+__all__ = ["save_conversation"]
+
+# Ensure tables exist
+init_db()
 
 
-def save_conversation_as_array(path: str, conversation: Dict[str, Any]) -> None:
-    """Append a conversation dict to a JSON array in `path`.
+def save_conversation(conversation: Dict[str, Any]) -> int:
+    """Persist a conversation and its messages to the SQLite database.
 
-    Creates parent directory if needed. If the file exists but is invalid JSON
-    it will be overwritten with a new array containing `conversation`.
+    Returns the created Conversation id.
     """
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    data = []
-    if os.path.exists(path):
-        try:
-            with open(path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                if not isinstance(data, list):
-                    data = []
-        except (json.JSONDecodeError, FileNotFoundError):
-            data = []
-    data.append(conversation)
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    session = get_session()
+    try:
+        conv = Conversation(model=conversation.get("model", "unknown"))
+        session.add(conv)
+        session.flush()  # populate conv.id
+
+        for idx, msg in enumerate(conversation.get("messages", [])):
+            message = Message(
+                conversation_id=conv.id,
+                role=msg.get("role"),
+                content=msg.get("content"),
+                reasoning_details=msg.get("reasoning_details"),
+                position=idx,
+            )
+            session.add(message)
+
+        session.commit()
+        return cast(int, conv.id)
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import os
 from typing import Optional, Dict, Any
 
-from storage.conversations import save_conversation_as_array
+from storage.conversations import save_conversation
 
 load_dotenv()
 
@@ -61,9 +61,9 @@ def run_conversation(question: Optional[str] = None) -> Dict[str, Any]:
         "messages": messages,
     }
 
-    save_conversation_as_array("data/conversations.json", conversation)
+    conv_id = save_conversation(conversation)
 
-    return {"conversation": conversation, "final_message": final_message}
+    return {"conversation": conversation, "final_message": final_message, "conversation_id": conv_id}
 
 
 if __name__ == "__main__":
@@ -75,7 +75,8 @@ if __name__ == "__main__":
         try:
             result = run_conversation()
             print(result["final_message"])
-            print("✅ Conversation saved to data/conversations.json")
+            conv_id = result.get("conversation_id")
+            print(f"✅ Conversation saved (id: {conv_id})")
         except Exception as e:
             print(f"⚠️ Failed to run conversation: {e}")
     else:
