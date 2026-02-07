@@ -2,6 +2,9 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeSanitize from 'rehype-sanitize'
 
 function App() {
 
@@ -54,8 +57,12 @@ function App() {
 
       <div className="card">
         <h2>Resposta</h2>
-        <pre>{response}</pre>
-        {conversationId && <div>ID da conversa: {conversationId}</div>}
+        <div>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
+            {response}
+          </ReactMarkdown>
+        </div>
+        {conversationId && <div className='idConversation'>ID da conversa: {conversationId}</div>}
       </div>
 
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>

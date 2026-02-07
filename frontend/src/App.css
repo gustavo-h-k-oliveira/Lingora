@@ -5,6 +5,23 @@
   text-align: center;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e1e4e8;
+}
+
+table th,
+table td {
+  border: 1px solid #e1e4e8;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+table th {
+  font-weight: 600;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -35,6 +52,13 @@
 
 .card {
   padding: 2em;
+  text-align: left;
+}
+
+.idConversation {
+  margin-top: 1em;
+  font-size: 0.9em;
+  color: #555;
 }
 
 .read-the-docs {
