@@ -1,70 +1,43 @@
-import requests
-import json
-from datetime import datetime, timezone
+import logging
+import os
+from typing import Any, Dict, Optional
 
 from dotenv import load_dotenv
-import os
-from typing import Optional, Dict, Any
 
-from storage.conversations import save_conversation, append_messages, get_conversation
+from lingora.engine import LingoraEngine
+from storage.db import init_db
+
+# Configure logging after imports
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
+# Ensure the database schema exists at startup (creates tables if needed)
+init_db()
 
 MODEL_NAME = "arcee-ai/trinity-large-preview:free"
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 
-def run_conversation(question: Optional[str] = None, messages: Optional[list] = None, conversation_id: Optional[int] = None) -> Dict[str, Any]:
-    """Run a conversation turn with optional history and persistence.
+_engine = None
 
-    - If `messages` is provided, it will be used as the context (list of {role, content}).
-    - If `conversation_id` is provided, new messages will be appended to the existing conversation.
-    - If neither `messages` nor `question` is provided, a default question is used.
 
-    Returns dict with final message and conversation_id.
-    """
-    headers = {
-        "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
-        "Content-Type": "application/json",
-    }
+def get_engine():
+    global _engine
+    if _engine is None:
+        _engine = LingoraEngine()
+    return _engine
 
-    if messages is None:
-        if question is None:
-            question = "How many r's are in the word 'strawberry'?"
-        messages = [{"role": "user", "content": question}]
 
-    # Call the model with full message history
-    resp = requests.post(
-        url=API_URL,
-        headers=headers,
-        json={
-            "model": MODEL_NAME,
-            "messages": messages,
-            "reasoning": {"enabled": True},
-        },
+def run_conversation(
+    question: Optional[str] = None,
+    messages: Optional[list] = None,
+    conversation_id: Optional[int] = None,
+) -> Dict[str, Any]:
+    engine = get_engine()
+    return engine.run_turn(
+        question=question, messages=messages, conversation_id=conversation_id
     )
-
-    resp.raise_for_status()
-    resp_json = resp.json()
-    assistant_msg = resp_json["choices"][0]["message"]
-    assistant_content = assistant_msg.get("content")
-
-    # Persist: if conversation_id provided, append only the new user + assistant messages;
-    # otherwise create a new conversation record containing the full history + assistant reply.
-    if conversation_id:
-        # the frontend should have included the user's new message as the last entry in `messages`.
-        user_msg = messages[-1]
-        append_messages(conversation_id, [user_msg, {"role": "assistant", "content": assistant_content, "reasoning_details": assistant_msg.get("reasoning_details")}])
-        conv_id = conversation_id
-    else:
-        convo_to_save = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "model": MODEL_NAME,
-            "messages": messages + [{"role": "assistant", "content": assistant_content, "reasoning_details": assistant_msg.get("reasoning_details")}],
-        }
-        conv_id = save_conversation(convo_to_save)
-
-    return {"conversation": {"id": conv_id}, "final_message": assistant_content, "conversation_id": conv_id}
 
 
 if __name__ == "__main__":
@@ -75,11 +48,11 @@ if __name__ == "__main__":
     if "--run-once" in sys.argv or "run" in sys.argv:
         try:
             result = run_conversation()
-            print(result["final_message"])
+            logger.info("%s", result["final_message"])
             conv_id = result.get("conversation_id")
-            print(f"✅ Conversation saved (id: {conv_id})")
-        except Exception as e:
-            print(f"⚠️ Failed to run conversation: {e}")
+            logger.info("✅ Conversation saved (id: %s)", conv_id)
+        except Exception:
+            logger.exception("Failed to run conversation")
     else:
         # Start Flask server (uses create_app from web.py)
         from web import create_app
