@@ -21,12 +21,14 @@ def create_app(run_conversation_func):
     def run():
         data = request.get_json(silent=True) or {}
         question = data.get("question")
+        messages = data.get("messages")
+        conversation_id = data.get("conversation_id")
         try:
-            result = run_conversation_func(question)
+            result = run_conversation_func(question=question, messages=messages, conversation_id=conversation_id)
             return jsonify({
                 "ok": True,
                 "final_message": result["final_message"],
-                "conversation": result["conversation"],
+                "conversation": result.get("conversation"),
                 "conversation_id": result.get("conversation_id"),
             })
         except Exception as e:

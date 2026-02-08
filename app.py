@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import os
 from typing import Optional, Dict, Any
 
-from storage.conversations import save_conversation
+from storage.conversations import save_conversation, append_messages, get_conversation
 
 load_dotenv()
 
@@ -14,56 +14,57 @@ MODEL_NAME = "arcee-ai/trinity-large-preview:free"
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 
-def run_conversation(question: Optional[str] = None) -> Dict[str, Any]:
-    """Run the two-step reasoning conversation and save it to disk.
+def run_conversation(question: Optional[str] = None, messages: Optional[list] = None, conversation_id: Optional[int] = None) -> Dict[str, Any]:
+    """Run a conversation turn with optional history and persistence.
 
-    Returns a dict with the saved conversation and the final assistant message.
+    - If `messages` is provided, it will be used as the context (list of {role, content}).
+    - If `conversation_id` is provided, new messages will be appended to the existing conversation.
+    - If neither `messages` nor `question` is provided, a default question is used.
+
+    Returns dict with final message and conversation_id.
     """
-    if question is None:
-        question = "How many r's are in the word 'strawberry'?"
-
     headers = {
         "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
         "Content-Type": "application/json",
     }
 
-    # First API call with reasoning
-    resp1 = requests.post(
+    if messages is None:
+        if question is None:
+            question = "How many r's are in the word 'strawberry'?"
+        messages = [{"role": "user", "content": question}]
+
+    # Call the model with full message history
+    resp = requests.post(
         url=API_URL,
         headers=headers,
-        data=json.dumps({
+        json={
             "model": MODEL_NAME,
-            "messages": [{"role": "user", "content": question}],
+            "messages": messages,
             "reasoning": {"enabled": True},
-        }),
+        },
     )
 
-    resp1.raise_for_status()
-    resp1_json = resp1.json()
-    assistant_msg = resp1_json["choices"][0]["message"]
+    resp.raise_for_status()
+    resp_json = resp.json()
+    assistant_msg = resp_json["choices"][0]["message"]
+    assistant_content = assistant_msg.get("content")
 
-    # Use the assistant's first reply directly (no second request)
-    messages = [
-        {"role": "user", "content": question},
-        {
-            "role": "assistant",
-            "content": assistant_msg.get("content"),
-            "reasoning_details": assistant_msg.get("reasoning_details"),
-        },
-    ]
+    # Persist: if conversation_id provided, append only the new user + assistant messages;
+    # otherwise create a new conversation record containing the full history + assistant reply.
+    if conversation_id:
+        # the frontend should have included the user's new message as the last entry in `messages`.
+        user_msg = messages[-1]
+        append_messages(conversation_id, [user_msg, {"role": "assistant", "content": assistant_content, "reasoning_details": assistant_msg.get("reasoning_details")}])
+        conv_id = conversation_id
+    else:
+        convo_to_save = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "model": MODEL_NAME,
+            "messages": messages + [{"role": "assistant", "content": assistant_content, "reasoning_details": assistant_msg.get("reasoning_details")}],
+        }
+        conv_id = save_conversation(convo_to_save)
 
-    final_message = assistant_msg.get("content")
-
-    # Save conversation (uses storage module)
-    conversation = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "model": MODEL_NAME,
-        "messages": messages,
-    }
-
-    conv_id = save_conversation(conversation)
-
-    return {"conversation": conversation, "final_message": final_message, "conversation_id": conv_id}
+    return {"conversation": {"id": conv_id}, "final_message": assistant_content, "conversation_id": conv_id}
 
 
 if __name__ == "__main__":

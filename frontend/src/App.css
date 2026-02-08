@@ -6,9 +6,10 @@
 }
 
 table {
-  width: 100%;
+  justify-self: center;
   border-collapse: collapse;
   border: 1px solid #e1e4e8;
+  margin: 1.5rem 0;
 }
 
 table th,
@@ -50,9 +51,37 @@ table th {
   }
 }
 
-.card {
+.chat {
   padding: 2em;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.5rem 1.2rem;
+  border-radius: 15px;
+  line-height: 1.4;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+.message.user {
+  align-self: flex-end;
+  background: #666;
+  border: 1px solid #444;
+}
+
+.message.assistant {
+  align-self: flex-start;
+  background: #222;
+  border: 1px solid #333;
+}
+
+.empty {
+  color: #666;
+  font-style: italic;
 }
 
 .idConversation {
