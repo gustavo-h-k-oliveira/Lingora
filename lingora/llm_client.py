@@ -87,7 +87,13 @@ class OpenRouterClient(LLMClient):
 
         system_instruction = (
             "Você é um analisador de conversas. Receba a lista de mensagens (com 'role' e 'content') e produza SOMENTE um JSON válido com as chaves:\n"
-            "- state: uma das [IDLE, PRACTICE_LANGUAGE, FEEDBACK, EXPLANATION, EXERCISE, STUDY_SESSION]\n"
+            "- state: uma das [IDLE, PRACTICE_LANGUAGE, FEEDBACK, EXPLANATION, EXERCISE, STUDY_SESSION]. Definições:\n"
+            "  - IDLE: interação administrativa ou conversa breve sem prática ativa; use quando não houver prática específica.\n"
+            "  - PRACTICE_LANGUAGE: usuário está ativamente praticando a língua alvo (ex.: escrever ou conversar). Foque em correções concisas e encorajamento à produção.\n"
+            "  - FEEDBACK: foco em apontar e explicar erros nas produções do usuário; inclua exemplos de correção e evidencie erros recorrentes.\n"
+            "  - EXPLANATION: forneça explicações detalhadas sobre gramática, vocabulário ou usos, sem necessariamente pedir resposta imediata.\n"
+            "  - EXERCISE: propõe e avalia exercícios (lacunas, traduções, perguntas); o assistente deve propor fornecer instruções e verificar respostas do usuário.\n"
+            "  - STUDY_SESSION: sessão estruturada de estudo com objetivos, sequência de atividades e revisão; pode combinar prática, explicação e feedback.\n"
             "- language: código ou nome do idioma que o aluno está praticando/estudando (use código de países Alpha-2 do ISO 3166) ou 'unknown'\n"
             "- user_level: estimativa do nível (A1, A2, B1, B2, C1, C2) ou 'unknown'\n"
             "- recurring_errors: lista de strings com erros recorrentes detectados\n"

@@ -93,3 +93,32 @@ table th {
 .read-the-docs {
   color: #888;
 }
+
+/* Message input layout and centering */
+.message-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.message-input .input-field {
+  width: 60%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.message-input .send-button {
+  margin-left: 8px;
+  padding: 8px 12px;
+}
+
+/* center vertically when used as the initial input */
+.message-input.centered {
+  min-height: 120px; /* gives some vertical space for centering */
+}
+
+/* chat-specific input styling */
+.message-input.chat-input {
+  margin-top: 1rem;
+}

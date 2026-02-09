@@ -5,6 +5,7 @@ import './App.css'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeSanitize from 'rehype-sanitize'
+import MessageInput from './components/MessageInput' 
 
 function App() {
 
@@ -53,33 +54,17 @@ function App() {
       <h1>Lingora</h1>
 
       {messages.length === 0 ? (
-        <div style={{ marginBottom: 16 }}>
-          <input
-            style={{ width: '60%', padding: '8px' }}
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Digite sua pergunta aqui..."
-          />
-          <button style={{ marginLeft: 8, padding: '8px 12px' }} onClick={runConversation}>
-            Iniciar conversa
-          </button>
-        </div>
-      ) : (
-        <div style={{ marginTop: 16 }}>
-          {/* input moved to the chat area for ongoing conversation */}
-          <input
-            style={{ width: '60%', padding: '8px' }}
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Digite sua próxima mensagem..."
-            onKeyDown={(e) => { if (e.key === 'Enter') runConversation() }}
-          />
-          <button style={{ marginLeft: 8, padding: '8px 12px' }} onClick={runConversation}>
-            Enviar
-          </button>
-        </div>
-      )}
-      <h2>Chat</h2>
+        <MessageInput
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          onSend={runConversation}
+          placeholder="Digite sua pergunta aqui..."
+          buttonLabel="Iniciar conversa"
+          className="centered"
+          containerStyle={{ marginBottom: 16 }}
+        />
+      ) : null} 
+      <h2>Chat 💬</h2>
       <div className="chat">
         {messages.length === 0 && <div className="empty">Nenhuma mensagem ainda. Envie algo para começar.</div>}
         {messages.map((m, i) => (
@@ -89,7 +74,20 @@ function App() {
             </ReactMarkdown>
           </div>
         ))}
-        {conversationId && <div className='idConversation'>ID da conversa: {conversationId}</div>}
+        {conversationId && <div className='idConversation'>ID da conversa: {conversationId}</div>} 
+        {messages.length > 0 && (
+          <div>
+            <MessageInput
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              onSend={runConversation}
+              placeholder="Digite sua próxima mensagem..."
+              buttonLabel="Enviar"
+              className="chat-input"
+              containerStyle={{ marginTop: 0 }}
+            />
+          </div>
+        )}
       </div>
 
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
