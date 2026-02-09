@@ -1,6 +1,7 @@
+import os
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import os
 
 
 def create_app(run_conversation_func):
@@ -8,14 +9,20 @@ def create_app(run_conversation_func):
     app = Flask(__name__)
 
     # Allow local frontend dev server to call the API during development
-    CORS(app, resources={r"/run": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+    CORS(
+        app,
+        resources={r"/run": {"origins": "http://localhost:5173"}},
+        supports_credentials=True,
+    )
 
     @app.route("/", methods=["GET"])
     def index():
-        return jsonify({
-            "ok": True,
-            "message": "Frontend is a separate React app. Run 'npm run dev' in ./frontend for development or serve built assets from frontend/dist in production.",
-        })
+        return jsonify(
+            {
+                "ok": True,
+                "message": "Frontend is a separate React app. Run 'npm run dev' in ./frontend for development or serve built assets from frontend/dist in production.",
+            }
+        )
 
     @app.route("/run", methods=["POST"])
     def run():
@@ -24,13 +31,17 @@ def create_app(run_conversation_func):
         messages = data.get("messages")
         conversation_id = data.get("conversation_id")
         try:
-            result = run_conversation_func(question=question, messages=messages, conversation_id=conversation_id)
-            return jsonify({
-                "ok": True,
-                "final_message": result["final_message"],
-                "conversation": result.get("conversation"),
-                "conversation_id": result.get("conversation_id"),
-            })
+            result = run_conversation_func(
+                question=question, messages=messages, conversation_id=conversation_id
+            )
+            return jsonify(
+                {
+                    "ok": True,
+                    "final_message": result["final_message"],
+                    "conversation": result.get("conversation"),
+                    "conversation_id": result.get("conversation_id"),
+                }
+            )
         except Exception as e:
             return jsonify({"ok": False, "error": str(e)}), 500
 
